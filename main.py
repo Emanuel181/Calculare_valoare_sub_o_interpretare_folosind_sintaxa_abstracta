@@ -1,5 +1,9 @@
 
-prop = "~ = P & P Q ! Q"
+prop = input("Introduceti sintaxa abstracta data de programul ce returneaza sub forma de lista formula propozitionala: ")
+print()
+p = input("Introduceti formula propozitionala originala: ")
+p = [char for char in p if char != ' ']
+
 prop = prop.split()
 rez = "null"
 
@@ -13,9 +17,6 @@ for i in range(len(prop)):
     elif prop[i] == '&' or prop[i] == '^':
         prop[i] = '∧'
 
-p = "( ( P = ( P & Q ) ) ~ ( ! Q ) )"
-p = p.split()
-
 for i in range(len(p)):
     if p[i] == '~':
         p[i] = '⇒'
@@ -27,7 +28,6 @@ for i in range(len(p)):
         p[i] = '∧'
 
 p = ''.join(p)
-# print(p)
 
 interpreters = {}
 
@@ -44,7 +44,7 @@ for i in range(len(prop)):
     if prop[i] in interpreters:
         prop[i] = interpreters[prop[i]]
 
-# print(prop)
+# print(prop) # - debug
 
 for i in range(len(prop)-1, -1, -1):
     # Warning approach
@@ -54,7 +54,7 @@ for i in range(len(prop)-1, -1, -1):
         for j in range(i, len(prop)):
             if prop[i] != 0 or prop[i] != 1:
                 prop[i] = '*'
-        # print(prop)
+        # print(prop)# - debug
 
     elif prop[i] in ['⇒','∨','⇔','∧']:
         if prop[i] == '∧':
@@ -69,10 +69,10 @@ for i in range(len(prop)-1, -1, -1):
                         b = prop[j]
                         prop[j] = '*'
                         break
-            # print(a, b)
+            # print(a, b)# - debug
             prop[i] = int(int(a) and int(b))
             rez = prop[i]
-            # print(prop)
+            # print(prop)# - debug
 
         elif prop[i] == '⇔':
             a, b = '*', '*'
@@ -87,10 +87,10 @@ for i in range(len(prop)-1, -1, -1):
                         b = prop[j]
                         prop[j] = '*'
                         break
-            # print(a,b)
+            # print(a,b)# - debug
             prop[i] = int(a == b)
             rez = prop[i]
-            # print(prop)
+            # print(prop)# - debug
 
         elif prop[i] == '⇒':
             a, b = '*', '*'
@@ -104,10 +104,10 @@ for i in range(len(prop)-1, -1, -1):
                         b = prop[j]
                         prop[j] = '*'
                         break
-            # print(a,b)
+            # print(a,b)# - debug
             prop[i] = int(not(a) or b)
             rez = prop[i]
-            # print(prop)
+            # print(prop)# - debug
 
         if prop[i] == '∨':
             a, b = '*', '*'
@@ -121,11 +121,11 @@ for i in range(len(prop)-1, -1, -1):
                         b = prop[j]
                         prop[j] = '*'
                         break
-            # print(a,b)
+            # print(a,b)# - debug
             prop[i] = int(a or b)
             rez = prop[i]
-            # print(prop)
+            # print(prop)# - debug
 
-# print(prop)
+# print(prop)# - debug
 print()
-print("Valoarea propozitiei", p, "sub intepretarea I₀:", [interpreters[x] for x in interpreters], "este", rez)
+print("Valoarea propozitiei", p, "sub intepretarea I₀:", [interpreters[x] for x in interpreters], "este", rez, '(', 'True' if rez == 1 else 'False', ')')
